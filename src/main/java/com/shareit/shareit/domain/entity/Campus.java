@@ -19,9 +19,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "campus")
 public class Campus extends BaseEntity {
 	@Id
-	@Column(name = "id")
+	@Column(name = "campus_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long campusId;
+	private Long id;
 
 	@Column(length = 50)
 	private String campusName;

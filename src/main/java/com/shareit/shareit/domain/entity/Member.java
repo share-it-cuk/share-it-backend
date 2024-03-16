@@ -32,9 +32,9 @@ import lombok.NoArgsConstructor;
 public class Member extends BaseEntity {
 
 	@Id
-	@Column(name = "id", nullable = false)
+	@Column(name = "member_id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long memberId;
+	private Long id;
 
 	@Column(length = 50)
 	private String email;
