@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ActiveStatus {
 
-    ACTIVE("ACTIVE"), DELETED("DELETED");
+    ACTIVE("ACTIVE"), PENDING("PENDING"),DELETED("DELETED");
 
     private final String activeStatus;
 

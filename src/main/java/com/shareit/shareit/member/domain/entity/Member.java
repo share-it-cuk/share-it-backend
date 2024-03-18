@@ -1,7 +1,11 @@
-package com.shareit.shareit.domain.entity;
+package com.shareit.shareit.member.domain.entity;
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 import com.shareit.shareit.domain.BaseEntity;
-import com.shareit.shareit.domain.Role;
+import com.shareit.shareit.domain.entity.Campus;
+import com.shareit.shareit.member.util.Role;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,7 +32,8 @@ import lombok.NoArgsConstructor;
 		columnNames = "nickname"
 	)
 })
-
+@SQLRestriction("active_status <> 'DELETED' and active_status <> 'PENDING'")
+@SQLDelete(sql = "UPDATE member SET active_status = 'DELETED' WHERE member_id = ?")
 public class Member extends BaseEntity {
 
 	@Id
