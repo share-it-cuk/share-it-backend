@@ -37,12 +37,12 @@ public class Review extends BaseEntity {
 	private Purchase purchase;
 
 	@ManyToOne
-	@JoinColumn(name = "post_member_id")
-	private Member postMember;
+	@JoinColumn(name = "reviewer_id")
+	private Member reviewer;
 
 	@ManyToOne
-	@JoinColumn(name = "visitor_member_id")
-	private Member visitorMember;
+	@JoinColumn(name = "receiver_id")
+	private Member receiver;
 
 	private String content;
 	private Integer score;
