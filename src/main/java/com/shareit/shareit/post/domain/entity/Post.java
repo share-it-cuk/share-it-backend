@@ -53,7 +53,7 @@ public class Post extends BaseEntity {
 
 	private String title;
 
-	private Integer cost;
+	private Long cost;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<PostImage> postImages;
@@ -65,7 +65,7 @@ public class Post extends BaseEntity {
 	private Set<Purchase> purchases;
 
 	@Builder
-	public Post(Campus campus, Member member, String hashTag, String content, String title, Integer cost) {
+	public Post(Campus campus, Member member, String hashTag, String content, String title, Long cost) {
 		this.campus = campus;
 		this.member = member;
 		this.hashTag = hashTag;

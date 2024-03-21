@@ -44,7 +44,7 @@ public class Purchase extends BaseEntity {
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 	private String account;
-	private Double cost;
+	private Long cost;
 	private PurchaseStatus purchaseStatus;
 
 }
