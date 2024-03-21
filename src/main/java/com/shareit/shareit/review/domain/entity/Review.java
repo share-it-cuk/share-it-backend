@@ -15,7 +15,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,8 +31,8 @@ public class Review extends BaseEntity {
 	@Column(name  = "review_id")
 	private Long id;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "purhcase_id", referencedColumnName = "purchase_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "purhcase_id")
 	private Purchase purchase;
 
 	@ManyToOne
