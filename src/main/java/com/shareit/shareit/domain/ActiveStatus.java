@@ -1,12 +1,11 @@
 package com.shareit.shareit.domain;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public enum ActiveStatus {
 
-    ACTIVE("ACTIVE"), DELETED("DELETED");
+    ACTIVE("ACTIVE"), PENDING("PENDING"),DELETED("DELETED");
 
     private final String activeStatus;
 

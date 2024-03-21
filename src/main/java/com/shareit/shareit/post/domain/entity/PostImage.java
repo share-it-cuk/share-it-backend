@@ -1,4 +1,6 @@
-package com.shareit.shareit.domain.entity;
+package com.shareit.shareit.post.domain.entity;
+
+import java.util.Set;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -10,30 +12,28 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "campus")
-@SQLDelete(sql = "UPDATE campus SET active_status = 'DELETED' WHERE campus_id = ?")
 @SQLRestriction("active_status <> 'DELETED' and active_status <> 'PENDING'")
-public class Campus extends BaseEntity {
+@SQLDelete(sql = "UPDATE post SET active_status = 'DELETED' where post_id = ?")
+public class PostImage extends BaseEntity {
+
 	@Id
-	@Column(name = "campus_id")
+	@Column(name = "post_image_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(length = 50)
-	private String campusName;
+	@ManyToOne
+	@JoinColumn(name = "post_id")
+	private Post post;
 
-	@Builder
-	public Campus(String campusName) {
-		this.campusName = campusName;
+	private String imageKey;
 
-	}
 }

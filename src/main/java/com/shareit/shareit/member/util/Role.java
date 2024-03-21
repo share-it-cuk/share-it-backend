@@ -1,4 +1,4 @@
-package com.shareit.shareit.domain;
+package com.shareit.shareit.member.util;
 
 import lombok.Getter;
 
