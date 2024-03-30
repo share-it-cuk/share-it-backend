@@ -1,6 +1,5 @@
 package com.shareit.shareit.post.domain.entity;
 
-import java.util.Set;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -15,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,5 +35,12 @@ public class PostImage extends BaseEntity {
 	private Post post;
 
 	private String imageKey;
+
+	@Builder
+	public PostImage(Post post, String imageKey) {
+		this.post = post;
+		this.imageKey = imageKey;
+
+	}
 
 }
