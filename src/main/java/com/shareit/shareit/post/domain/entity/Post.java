@@ -10,6 +10,7 @@ import com.shareit.shareit.domain.BaseEntity;
 import com.shareit.shareit.domain.entity.Campus;
 import com.shareit.shareit.like.domain.entity.Likes;
 import com.shareit.shareit.member.domain.entity.Member;
+import com.shareit.shareit.post.domain.PostType;
 import com.shareit.shareit.purchase.domain.entity.Purchase;
 
 import jakarta.persistence.CascadeType;
@@ -54,6 +55,8 @@ public class Post extends BaseEntity {
 	private String title;
 
 	private Long cost;
+
+	private PostType postType;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<PostImage> postImages;
