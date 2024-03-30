@@ -71,7 +71,7 @@ public class Member extends BaseEntity {
 
 	@Builder
 	public Member(String email, String password, String nickname, String phoneNum, Role userRole, String address,
-		String profileImage, String socialId, String refreshToken, String profileKey) {
+		String profileImage, String socialId, String refreshToken, String profileKey, Campus campus) {
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
@@ -82,6 +82,7 @@ public class Member extends BaseEntity {
 		this.socialId = socialId;
 		this.refreshToken = refreshToken;
 		this.profileKey = profileKey;
+		this.campus = campus;
 	}
 
 }
