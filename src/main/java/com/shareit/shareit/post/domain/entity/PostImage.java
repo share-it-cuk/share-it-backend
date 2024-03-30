@@ -43,4 +43,14 @@ public class PostImage extends BaseEntity {
 
 	}
 
+	// 연관 관계 편의 메서드
+	public void addPost(Post post) {
+		if (this.post != post){
+			this.post = post;
+		}
+		if (!post.getPostImages().contains(this)){
+			post.addPostImage(this);
+		}
+	}
+
 }
