@@ -10,6 +10,7 @@ import com.shareit.shareit.domain.BaseEntity;
 import com.shareit.shareit.domain.entity.Campus;
 import com.shareit.shareit.like.domain.entity.Likes;
 import com.shareit.shareit.member.domain.entity.Member;
+import com.shareit.shareit.post.domain.PostType;
 import com.shareit.shareit.purchase.domain.entity.Purchase;
 
 import jakarta.persistence.CascadeType;
@@ -55,6 +56,8 @@ public class Post extends BaseEntity {
 
 	private Long cost;
 
+	private PostType postType;
+
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<PostImage> postImages;
 
@@ -65,16 +68,25 @@ public class Post extends BaseEntity {
 	private Set<Purchase> purchases;
 
 	@Builder
-	public Post(Campus campus, Member member, String hashTag, String content, String title, Long cost) {
+	public Post(Campus campus, Member member, String hashTag, String content, String title, Long cost, PostType postType) {
 		this.campus = campus;
 		this.member = member;
 		this.hashTag = hashTag;
 		this.content = content;
 		this.title = title;
 		this.cost = cost;
+		this.postType = postType;
 		this.postImages = new HashSet<>();
 		this.likes = new HashSet<>();
 		this.purchases = new HashSet<>();
+	}
+
+	// 연관 관계 편의 메서드
+	public void addPostImage(PostImage postImage) {
+		this.getPostImages().add(postImage);
+		if (postImage.getPost() != this){
+			postImage.addPost(this);
+		}
 	}
 
 }
