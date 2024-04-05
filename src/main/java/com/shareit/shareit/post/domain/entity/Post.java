@@ -1,5 +1,6 @@
 package com.shareit.shareit.post.domain.entity;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -58,6 +59,8 @@ public class Post extends BaseEntity {
 
 	private PostType postType;
 
+	private Integer perDate;
+
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<PostImage> postImages;
 
@@ -68,7 +71,8 @@ public class Post extends BaseEntity {
 	private Set<Purchase> purchases;
 
 	@Builder
-	public Post(Campus campus, Member member, String hashTag, String content, String title, Long cost, PostType postType) {
+	public Post(Campus campus, Member member, String hashTag, String content, String title,
+		Long cost, PostType postType, Integer perDate) {
 		this.campus = campus;
 		this.member = member;
 		this.hashTag = hashTag;
@@ -76,6 +80,7 @@ public class Post extends BaseEntity {
 		this.title = title;
 		this.cost = cost;
 		this.postType = postType;
+		this.perDate = perDate;
 		this.postImages = new HashSet<>();
 		this.likes = new HashSet<>();
 		this.purchases = new HashSet<>();
@@ -84,7 +89,7 @@ public class Post extends BaseEntity {
 	// 연관 관계 편의 메서드
 	public void addPostImage(PostImage postImage) {
 		this.getPostImages().add(postImage);
-		if (postImage.getPost() != this){
+		if (postImage.getPost() != this) {
 			postImage.addPost(this);
 		}
 	}
