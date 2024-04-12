@@ -167,7 +167,7 @@ public class PostRepositoryTest {
 		post2.addPostImage(postImage3);
 
 		//When
-		List<Post> findPosts = postRepository.findAllWithImages(PostType.NEED);
+		List<Post> findPosts = postRepository.findAllWithImages(PostType.NEED, testCampus);
 
 		//Then
 		findPosts.forEach(post -> {
