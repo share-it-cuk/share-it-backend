@@ -8,7 +8,6 @@ import org.hibernate.annotations.SQLRestriction;
 import com.shareit.shareit.domain.BaseEntity;
 import com.shareit.shareit.member.domain.entity.Member;
 import com.shareit.shareit.post.domain.entity.Post;
-import com.shareit.shareit.purchase.domain.util.PurchaseStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,6 +44,5 @@ public class Purchase extends BaseEntity {
 	private LocalDateTime endDate;
 	private String account;
 	private Long cost;
-	private PurchaseStatus purchaseStatus;
 
 }
