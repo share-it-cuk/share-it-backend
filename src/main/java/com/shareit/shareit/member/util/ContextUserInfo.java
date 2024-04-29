@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import com.shareit.shareit.domain.entity.Campus;
+import com.shareit.shareit.member.domain.entity.Member;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -13,18 +14,16 @@ import lombok.Getter;
 @Getter
 public class ContextUserInfo extends User {
 
-	private final Long id;
 	private final Campus campus;
-	private final Role role;
-	private final String profileImage;
+	private final Member member;
 
 	@Builder(builderMethodName = "contextUserInfoBuilder")
 	public ContextUserInfo(String username, String password, Collection<? extends GrantedAuthority> authorities,
-		Long id, Campus campus, Role role, String profileImage) {
+		Campus campus, Member member) {
 		super(username, password, authorities);
-		this.id = id;
+
+		this.member = member;
 		this.campus = campus;
-		this.profileImage = profileImage;
-		this.role = role;
+
 	}
 }
