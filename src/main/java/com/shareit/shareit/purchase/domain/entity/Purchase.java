@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SQLRestriction("active_status <> 'DELETED' and active_status <> PENDING")
+@SQLRestriction("active_status <> 'DELETED' and active_status <> 'PENDING'")
 @SQLDelete(sql = "UPDATE purchase SET active_status = 'DELETED' where purchase_id = ?")
 public class Purchase extends BaseEntity {
 
