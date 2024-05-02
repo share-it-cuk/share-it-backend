@@ -17,6 +17,8 @@ import com.shareit.shareit.purchase.domain.entity.Purchase;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -45,7 +47,7 @@ public class Post extends BaseEntity {
 	@JoinColumn(name = "campus_id")
 	private Campus campus;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
@@ -57,6 +59,7 @@ public class Post extends BaseEntity {
 
 	private Long cost;
 
+	@Enumerated(value = EnumType.STRING)
 	private PostType postType;
 
 	private Integer perDate;
@@ -92,6 +95,22 @@ public class Post extends BaseEntity {
 		if (postImage.getPost() != this) {
 			postImage.addPost(this);
 		}
+	}
+
+	public void updateTitle(String title) {
+		this.title = title;
+	}
+
+	public void updateContent(String content) {
+		this.content = content;
+	}
+
+	public void updateCost(Long cost) {
+		this.cost = cost;
+	}
+
+	public void updateHashTag(String hashTag) {
+		this.hashTag = hashTag;
 	}
 
 }
