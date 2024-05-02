@@ -1,20 +1,15 @@
 package com.shareit.shareit.post.repository;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import com.shareit.shareit.domain.entity.Campus;
-import com.shareit.shareit.post.domain.PostType;
 import com.shareit.shareit.post.domain.entity.Post;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, Long>, CustomPostRepository {
 
-	@EntityGraph(attributePaths = {"postImages"})
-	@Query("select p from Post p where p.postType=:type and p.campus=:campus")
-	List<Post> findAllWithImages(@Param("type") PostType postType, @Param("campus") Campus campus);
+	@EntityGraph(attributePaths = {"member"})
+	Optional<Post> findPostById(Long id);
 
 }
