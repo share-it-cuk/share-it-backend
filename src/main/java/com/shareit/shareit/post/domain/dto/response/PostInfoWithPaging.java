@@ -17,8 +17,7 @@ import lombok.Setter;
 public class PostInfoWithPaging implements PostResponse{
 
 	private boolean hasNext;
-	private LocalDateTime cursorTime;
-	private Long cursorId;
+	private LocalDateTime cursor;
 	private List<PostInfoForList> postInfos;
 
 }
