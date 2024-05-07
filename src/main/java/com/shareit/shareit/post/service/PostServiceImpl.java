@@ -70,112 +70,41 @@ public class PostServiceImpl implements PostService {
 		return Response.ok();
 	}
 
-	/**
-	 * @param cursorTime : cursor time that front sent;
-	 * @param cursorId   : cursor id that front sent
-	 * @param limit      : size of page limit;
-	 * @param keyword    : keyword that has to be searched. If null, find all of it;
-	 * @return : gave response with post infos
-	 */
 	@Override
-	public Response<PostInfoWithPaging> getSearchPosts(LocalDateTime cursorTime, Long cursorId, Integer limit,
-		String keyword) {
-
-		PageRequest pageRequest = PageRequest.ofSize(limit);
-		boolean hasNext = true;
-		List<PostInfoForList> posts;
-
-		if (cursorTime == null || cursorId == null) {
-
-			posts = postRepository.findAllPostInitial(keyword, pageRequest)
-				.stream()
-				.map(PostInfoForList::fromEntity)
-				.toList();
-
-		} else {
-
-			posts = postRepository.findAllWithCursorPaging(cursorTime, cursorId, keyword, pageRequest)
-				.stream()
-				.map(PostInfoForList::fromEntity)
-				.toList();
-
-		}
-
-		if (posts.size() != limit) {
-			hasNext = false;
-		}
-
-		PostInfoWithPaging response;
-
-		if (!posts.isEmpty()) {
-			response = PostInfoWithPaging.builder()
-				.hasNext(hasNext)
-				.cursorTime(posts.get(posts.size() - 1).getUpdatedAt())
-				.cursorId(posts.get(posts.size() - 1).getId())
-				.postInfos(posts)
-				.build();
-		} else {
-			response = PostInfoWithPaging.builder()
-				.hasNext(hasNext)
-				.postInfos(posts)
-				.build();
-		}
-
-		return Response.ok(response);
-	}
-
-	/**
-	 * @param cursorTime : cursor time front sent
-	 * @param cursorId   : cursor id front sent
-	 * @param limit      : size of one page
-	 * @param keyword    : keyword which going to find
-	 * @param postType   : post type which going to find
-	 * @return : post infos and cursor infos
-	 */
-	@Override
-	public Response<PostInfoWithPaging> getSearchPostsWithFilter(LocalDateTime cursorTime, Long cursorId, Integer limit,
-		String keyword, PostType postType) {
+	public Response<PostInfoWithPaging> getPagedPosts(LocalDateTime cursor, String keyword, PostType postType,
+		int size) {
 
 		boolean hasNext = true;
+		int lastCursorIndex = size - 1;
 
-		PageRequest pageRequest = PageRequest.ofSize(limit);
+		List<Post> findPosts = postRepository.findPostWithCursor(cursor, keyword, postType, size + 1);
 
-		List<PostInfoForList> posts;
-
-		if (cursorTime == null || cursorId == null) {
-			posts = postRepository.findTypedPostInitial(postType, keyword, pageRequest)
-				.stream()
-				.map(PostInfoForList::fromEntity)
-				.toList();
-
-		} else {
-			posts = postRepository.findTypePost(postType, cursorTime, cursorId, keyword, pageRequest)
-				.stream()
-				.map(PostInfoForList::fromEntity)
-				.toList();
+		if (findPosts.isEmpty()){
+			return Response.ok(
+				PostInfoWithPaging.builder()
+					.hasNext(false)
+					.cursor(cursor)
+					.build()
+			);
 		}
 
-		if (posts.size() != limit) {
+		if (findPosts.size() < size + 1) {
 			hasNext = false;
+			lastCursorIndex = findPosts.size() - 1;
 		}
 
-		PostInfoWithPaging response;
-
-		if (!posts.isEmpty()) {
-			response = PostInfoWithPaging.builder()
+		return Response.ok(
+			PostInfoWithPaging.builder()
 				.hasNext(hasNext)
-				.cursorTime(posts.get(posts.size() - 1).getUpdatedAt())
-				.cursorId(posts.get(posts.size() - 1).getId())
-				.postInfos(posts)
-				.build();
-		} else {
-			response = PostInfoWithPaging.builder()
-				.hasNext(hasNext)
-				.postInfos(posts)
-				.build();
-		}
-
-		return Response.ok(response);
+				.cursor(findPosts.get(lastCursorIndex).getUpdatedAt())
+				.postInfos(
+					findPosts.stream()
+						.limit(size)
+						.map(PostInfoForList::fromEntity)
+						.toList()
+				)
+				.build()
+		);
 	}
 
 	/**

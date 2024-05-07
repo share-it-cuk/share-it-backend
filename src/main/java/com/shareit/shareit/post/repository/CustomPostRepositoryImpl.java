@@ -3,8 +3,8 @@ package com.shareit.shareit.post.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.data.domain.Pageable;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.shareit.shareit.post.domain.PostType;
 import com.shareit.shareit.post.domain.entity.Post;
@@ -19,65 +19,23 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 	private final QPost qPost = QPost.post;
 
 	@Override
-	public List<Post> findAllPostInitial(String keyword, Pageable pageable) {
+	public List<Post> findPostWithCursor(LocalDateTime cursor, String keyword, PostType postType, int size) {
 
-		return query.
-			selectFrom(qPost)
-			.leftJoin(qPost.postImages)
-			.fetchJoin()
-			.where(qPost.title.contains(keyword))
-			.orderBy(qPost.updatedAt.desc(), qPost.id.desc())
-			.limit(pageable.getPageSize())
-			.fetch();
-	}
+		BooleanExpression cursorInitial = cursor == null ? null : qPost.updatedAt.lt(cursor);
+		BooleanExpression allOrKeyword = keyword == null ? null : qPost.title.contains(keyword);
+		BooleanExpression typedSearch = postType == null ? null : qPost.postType.eq(postType);
 
-	@Override
-	public List<Post> findAllWithCursorPaging(LocalDateTime cursorTime, Long cursorId, String keyword,
-		Pageable pageRequest) {
 		return query
 			.selectFrom(qPost)
 			.leftJoin(qPost.postImages)
 			.fetchJoin()
-			.where(qPost.title.contains(keyword)
-				.and(qPost.updatedAt.lt(cursorTime)
-					.and(qPost.id.lt(cursorId))
-				)
+			.where(
+				cursorInitial,
+				allOrKeyword,
+				typedSearch
 			)
-			.orderBy(qPost.updatedAt.desc(), qPost.id.desc())
-			.limit(pageRequest.getPageSize())
-			.fetch();
-	}
-
-	@Override
-	public List<Post> findTypedPostInitial(PostType type, String keyword, Pageable pageRequest) {
-		return query
-			.selectFrom(qPost)
-			.leftJoin(qPost.postImages)
-			.fetchJoin()
-			.where(qPost.postType.eq(type)
-				.and(qPost.title.contains(keyword))
-			)
-			.orderBy(qPost.updatedAt.desc(), qPost.id.desc())
-			.limit(pageRequest.getPageSize())
-			.fetch();
-	}
-
-	@Override
-	public List<Post> findTypePost(PostType postType, LocalDateTime cursorTime, Long cursorId, String keyword,
-		Pageable pageRequest) {
-		return query
-			.selectFrom(qPost)
-			.leftJoin(qPost.postImages)
-			.fetchJoin()
-			.where(qPost.postType.eq(postType)
-				.and(qPost.title.contains(keyword)
-					.and(qPost.updatedAt.lt(cursorTime)
-						.and(qPost.id.lt(cursorId))
-					)
-				)
-			)
-			.orderBy(qPost.updatedAt.desc(), qPost.id.desc())
-			.limit(pageRequest.getPageSize())
+			.orderBy(qPost.updatedAt.desc())
+			.limit(size)
 			.fetch();
 	}
 }

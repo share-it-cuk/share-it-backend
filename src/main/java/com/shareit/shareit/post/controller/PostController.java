@@ -33,28 +33,19 @@ public class PostController {
 		return postService.createPost(request);
 	}
 
-	@GetMapping("/post/all")
+	@GetMapping("/posts")
 	public Response<PostInfoWithPaging> searchFromAllPost(
-		@RequestParam(value = "cursorTime", required = false) LocalDateTime cursorTime,
-		@RequestParam(value = "cursorId", required = false) Long cursorId,
-		@RequestParam("limit") Integer limit,
-		@RequestParam(value = "keyword", required = false) String keyword) {
+		@RequestParam(value = "cursor", required = false) LocalDateTime cursor,
+		@RequestParam(value = "keyword", required = false) String keyword,
+		@RequestParam(value = "postType", required = false) PostType postType,
+		@RequestParam("limit") Integer limit
+		) {
 
-		return postService.getSearchPosts(cursorTime, cursorId, limit, keyword);
-	}
-
-	@GetMapping("/post/type")
-	public Response<PostInfoWithPaging> searchFromTypePost(
-		@RequestParam(value = "cursorTime", required = false) LocalDateTime cursorTime,
-		@RequestParam(value = "cursorId", required = false) Long cursorId,
-		@RequestParam("limit") Integer limit,
-		@RequestParam(value = "keyword", required = false) String keyword, @RequestParam("postType") PostType postType) {
-
-		return postService.getSearchPostsWithFilter(cursorTime, cursorId, limit, keyword, postType);
+		return postService.getPagedPosts(cursor, keyword, postType, limit);
 	}
 
 	@GetMapping("/post/{postId}")
-	public Response<PostInfoResponse> getPostDetail(@RequestParam("postId") Long postId) {
+	public Response<PostInfoResponse> getPostDetail(@PathVariable("postId") Long postId) {
 		return postService.getPostDetail(postId);
 	}
 

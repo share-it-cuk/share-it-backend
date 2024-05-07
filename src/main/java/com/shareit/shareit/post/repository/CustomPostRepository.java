@@ -10,11 +10,5 @@ import com.shareit.shareit.post.domain.entity.Post;
 
 public interface CustomPostRepository {
 
-	List<Post> findAllPostInitial(String keyword, Pageable pageable);
-
-	List<Post> findAllWithCursorPaging(LocalDateTime cursorTime, Long cursorId, String keyword, Pageable pageRequest);
-
-	List<Post> findTypedPostInitial(PostType type, String keyword, Pageable pageRequest);
-
-	List<Post> findTypePost(PostType postType, LocalDateTime cursorTime, Long cursorId, String keyword, Pageable pageRequest);
+	List<Post> findPostWithCursor(LocalDateTime cursor, String keyword, PostType postType, int size);
 }

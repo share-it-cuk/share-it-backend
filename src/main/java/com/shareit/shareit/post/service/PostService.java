@@ -13,9 +13,7 @@ public interface PostService {
 
 	Response<Void> createPost(CreatePostRequest request);
 
-	Response<PostInfoWithPaging> getSearchPosts(LocalDateTime cursorTime, Long cursorId, Integer limit, String keyword);
-
-	Response<PostInfoWithPaging> getSearchPostsWithFilter(LocalDateTime cursorTime, Long cursorId, Integer limit, String keyword, PostType postType);
+	Response<PostInfoWithPaging> getPagedPosts(LocalDateTime cursor, String keyword, PostType postType, int size);
 
 	Response<PostInfoResponse> getPostDetail(Long postId);
 
