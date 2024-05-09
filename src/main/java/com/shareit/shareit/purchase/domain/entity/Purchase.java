@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -44,5 +45,16 @@ public class Purchase extends BaseEntity {
 	private LocalDateTime endDate;
 	private String account;
 	private Long cost;
+
+	@Builder
+	public Purchase(Post post, Member member, LocalDateTime startDate, LocalDateTime endDate, String account,
+		Long cost) {
+		this.post = post;
+		this.member = member;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.account = account;
+		this.cost = cost;
+	}
 
 }
