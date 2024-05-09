@@ -73,7 +73,7 @@ public class MainPageService {
 						.campusName(currentUserInfo.getCampus().getCampusName())
 						.onTrade(onTrade)
 						.nextReserve(3L)
-						.toReview(reviewRepository.countByReviewerIs(currentUserInfo.getId()))
+						.toReview(reviewRepository.countIncompleteReviews(currentUserInfo.getId()))
 						.build()
 				)
 				.toTradeList(toTradeAtMainList)
