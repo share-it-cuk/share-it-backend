@@ -34,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 public class PurchaseRepositoryTest {
 
 	private final String testString1 = "test1";
-	private final String testString2 = "test2";
 	private final Long testCost = 100L;
 	private final LocalDateTime testDateNow = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
 	private final LocalDateTime testDateNowAfter1Week = testDateNow.plusWeeks(1L);
@@ -50,7 +49,6 @@ public class PurchaseRepositoryTest {
 
 	private Post testPost1;
 	private Member member1;
-	private Member member2;
 
 	@Autowired
 	private EntityManager em;
@@ -75,15 +73,7 @@ public class PurchaseRepositoryTest {
 			.campus(testCampus)
 			.build();
 
-		member2 = Member.builder()
-			.email(testString2)
-			.password(testString2)
-			.nickname(testString2)
-			.campus(testCampus)
-			.build();
-
 		em.persist(member1);
-		em.persist(member2);
 	}
 
 	@Test
