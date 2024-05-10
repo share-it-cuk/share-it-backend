@@ -1,4 +1,4 @@
-package com.shareit.shareit.review.domain.entity;
+package com.shareit.shareit.review.entity;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,7 +29,7 @@ public class Review extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name  = "review_id")
+	@Column(name = "review_id")
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -46,4 +47,12 @@ public class Review extends BaseEntity {
 	private String content;
 	private Integer score;
 
+	@Builder
+	public Review(Purchase purchase, Member reviewer, Member receiver, String content, Integer score) {
+		this.purchase = purchase;
+		this.reviewer = reviewer;
+		this.receiver = receiver;
+		this.content = content;
+		this.score = score;
+	}
 }
