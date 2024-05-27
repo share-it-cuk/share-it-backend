@@ -22,7 +22,7 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 	public List<Post> findPostWithCursor(LocalDateTime cursor, String keyword, PostType postType, int size) {
 
 		BooleanExpression cursorInitial = cursor == null ? null : qPost.updatedAt.lt(cursor);
-		BooleanExpression allOrKeyword = keyword == null ? null : qPost.title.contains(keyword);
+		BooleanExpression allOrKeyword = keyword == null ? null : qPost.hashTag.contains(keyword);
 		BooleanExpression typedSearch = postType == null ? null : qPost.postType.eq(postType);
 
 		return query

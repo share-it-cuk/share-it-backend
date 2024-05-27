@@ -3,7 +3,6 @@ package com.shareit.shareit.post.service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.shareit.shareit.Exceptions.BusinessException;

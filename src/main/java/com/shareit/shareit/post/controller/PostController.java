@@ -2,10 +2,12 @@ package com.shareit.shareit.post.controller;
 
 import java.time.LocalDateTime;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,8 +30,8 @@ public class PostController {
 
 	private final PostService postService;
 
-	@PutMapping("/post/create")
-	public Response<Void> create(@RequestBody CreatePostRequest request) {
+	@PostMapping("/post")
+	public Response<Void> create(@Validated @RequestBody CreatePostRequest request) {
 		return postService.createPost(request);
 	}
 
@@ -49,13 +51,13 @@ public class PostController {
 		return postService.getPostDetail(postId);
 	}
 
-	@PutMapping("/post/update")
+	@PatchMapping("/post")
 	public Response<Void> updatePost(@RequestBody EditPostRequest request) {
 
 		return postService.editPost(request);
 	}
 
-	@DeleteMapping("/post/delete/{postId}")
+	@DeleteMapping("/post/{postId}")
 	public Response<Void> deletePost(@PathVariable("postId") Long postId) {
 
 		return postService.deletePost(postId);
