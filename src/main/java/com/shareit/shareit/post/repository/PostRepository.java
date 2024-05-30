@@ -11,7 +11,7 @@ import com.shareit.shareit.post.domain.entity.Post;
 
 public interface PostRepository extends JpaRepository<Post, Long>, CustomPostRepository {
 
-	@EntityGraph(attributePaths = {"member"})
+	@EntityGraph(attributePaths = {"member", "likes", "postImages"})
 	Optional<Post> findPostById(Long id);
 
 	@Query("SELECT p FROM Post p ORDER BY p.updatedAt DESC")
