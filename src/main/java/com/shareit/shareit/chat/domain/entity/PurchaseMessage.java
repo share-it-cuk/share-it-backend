@@ -30,7 +30,6 @@ public class PurchaseMessage {
 	private Long purchaseId;
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
-	private Long cost;
 
 	private LocalDateTime sendTime;
 
@@ -39,7 +38,6 @@ public class PurchaseMessage {
 			.purchaseId(purchase.getId())
 			.startDate(purchase.getStartDate())
 			.endDate(purchase.getEndDate())
-			.cost(purchase.getCost())
 			.build();
 	}
 
