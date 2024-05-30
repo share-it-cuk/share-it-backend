@@ -19,8 +19,10 @@ public class PostInfoResponse implements PostResponse {
 	private String hashTag;
 	private Long cost;
 	private Integer perDate;
+	private Integer likeCount;
 	private List<String> imageKeys;
 	private boolean editor;
+	private boolean liked;
 
 	public static PostInfoResponse fromEntity(Post post) {
 		return new PostInfoResponse(post.getId(),
@@ -29,15 +31,21 @@ public class PostInfoResponse implements PostResponse {
 			post.getHashTag(),
 			post.getCost(),
 			post.getPerDate(),
+			post.getLikes().size(),
 			post.getPostImages().stream()
 				.map(PostImage::getImageKey)
 				.toList(),
+			false,
 			false
 		);
 	}
 
 	public void updateEditorCheck() {
 		this.editor = true;
+	}
+
+	public void updateLikedCheck() {
+		this.liked = true;
 	}
 
 }

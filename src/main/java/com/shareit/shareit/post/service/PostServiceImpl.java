@@ -2,6 +2,7 @@ package com.shareit.shareit.post.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import com.shareit.shareit.Exceptions.BusinessException;
 import com.shareit.shareit.domain.Repository.MemberRepository;
 import com.shareit.shareit.domain.Response;
 import com.shareit.shareit.domain.ResponseCode;
+import com.shareit.shareit.like.domain.entity.Likes;
 import com.shareit.shareit.member.domain.entity.Member;
 import com.shareit.shareit.post.domain.PostType;
 import com.shareit.shareit.post.domain.dto.request.CreatePostRequest;
@@ -133,6 +135,15 @@ public class PostServiceImpl implements PostService {
 
 		if (post.getMember() == member) {
 			postResponse.updateEditorCheck();
+		}
+
+		// TODO: member id change to context util
+		Optional<Likes> any = post.getLikes().stream()
+			.filter(like -> like.getMember().getId().equals(1L))
+			.findAny();
+
+		if (any.isPresent()){
+			postResponse.updateLikedCheck();
 		}
 
 		return Response.ok(postResponse);

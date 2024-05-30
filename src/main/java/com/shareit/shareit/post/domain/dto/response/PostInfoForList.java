@@ -23,6 +23,7 @@ public class PostInfoForList {
 	private Long cost;
 	private Integer perDate;
 	private LocalDateTime updatedAt;
+	private Integer likeCount;
 	private List<String> postImageUrls;
 
 	public static PostInfoForList fromEntity(Post post) {
@@ -32,6 +33,7 @@ public class PostInfoForList {
 			post.getCost(),
 			post.getPerDate(),
 			post.getUpdatedAt(),
+			post.getLikes().size(),
 			post.getPostImages().stream()
 				.map(PostImage::getImageKey)
 				.toList()
