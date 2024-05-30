@@ -9,3 +9,5 @@ spring:
 
       local:
         - local
+    include:
+      - mongo
