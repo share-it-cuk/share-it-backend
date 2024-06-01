@@ -15,6 +15,7 @@ import com.shareit.shareit.member.domain.entity.Member;
 import com.shareit.shareit.post.domain.PostType;
 import com.shareit.shareit.post.domain.dto.request.CreatePostRequest;
 import com.shareit.shareit.post.domain.dto.request.EditPostRequest;
+import com.shareit.shareit.post.domain.dto.response.CreatePostResponse;
 import com.shareit.shareit.post.domain.dto.response.PostInfoForList;
 import com.shareit.shareit.post.domain.dto.response.PostInfoResponse;
 import com.shareit.shareit.post.domain.dto.response.PostInfoWithPaging;
@@ -43,7 +44,7 @@ public class PostServiceImpl implements PostService {
 	 * @return : ok response
 	 */
 	@Override
-	public Response<Void> createPost(CreatePostRequest request) {
+	public Response<CreatePostResponse> createPost(CreatePostRequest request) {
 
 		Member contextUserInfo = securityUtils.getContextUserInfo().getMember();
 
@@ -58,13 +59,15 @@ public class PostServiceImpl implements PostService {
 			.perDate(request.getPerDate())
 			.build();
 
+		Long createdId;
 		try {
-			postRepository.save(needPost);
+			Post save = postRepository.save(needPost);
+			createdId = save.getId();
 		} catch (Exception e) {
 			throw new BusinessException();
 		}
 
-		return Response.ok();
+		return Response.ok(CreatePostResponse.of(createdId));
 	}
 
 	@Override

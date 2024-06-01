@@ -17,6 +17,7 @@ import com.shareit.shareit.domain.Response;
 import com.shareit.shareit.post.domain.PostType;
 import com.shareit.shareit.post.domain.dto.request.CreatePostRequest;
 import com.shareit.shareit.post.domain.dto.request.EditPostRequest;
+import com.shareit.shareit.post.domain.dto.response.CreatePostResponse;
 import com.shareit.shareit.post.domain.dto.response.PostInfoResponse;
 import com.shareit.shareit.post.domain.dto.response.PostInfoWithPaging;
 import com.shareit.shareit.post.service.PostService;
@@ -31,7 +32,7 @@ public class PostController {
 	private final PostService postService;
 
 	@PostMapping("/post")
-	public Response<Void> create(@Validated @RequestBody CreatePostRequest request) {
+	public Response<CreatePostResponse> create(@Validated @RequestBody CreatePostRequest request) {
 		return postService.createPost(request);
 	}
 
