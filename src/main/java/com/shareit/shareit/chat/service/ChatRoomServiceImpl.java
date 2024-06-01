@@ -9,11 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.shareit.shareit.Exceptions.BusinessException;
 import com.shareit.shareit.chat.domain.entity.ChatMember;
 import com.shareit.shareit.chat.domain.entity.ChatRoom;
+import com.shareit.shareit.chat.domain.entity.ChatRoomResponse;
 import com.shareit.shareit.chat.domain.response.ChatRoomListResponse;
 import com.shareit.shareit.chat.domain.response.CreateChatRoomResponse;
 import com.shareit.shareit.chat.repository.ChatMemberRepository;
 import com.shareit.shareit.chat.repository.ChatRoomRepository;
-import com.shareit.shareit.domain.Repository.MemberRepository;
 import com.shareit.shareit.domain.Response;
 import com.shareit.shareit.domain.ResponseCode;
 import com.shareit.shareit.member.domain.entity.Member;
@@ -33,34 +33,24 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 	private final ChatRoomRepository chatRoomRepository;
 	private final ChatMemberRepository chatMemberRepository;
 	private final PostRepository postRepository;
-	//TODO: 삭제
-	private final MemberRepository memberRepository;
 	private final SecurityUtils securityUtils;
 
 	@Override
-	public Response<List<ChatRoomListResponse>> findAllChatRooms() {
+	public Response<ChatRoomResponse> findAllChatRooms() {
 
-		// Member sessionMember = securityUtils.getContextUserInfo().getMember();
-
-		Member sessionMember = memberRepository.findById(2L).stream()
-			.findAny()
-			.orElseThrow(() -> new BusinessException(ResponseCode.MEMBER_NOT_FOUND));
+		Member sessionMember = securityUtils.getContextUserInfo().getMember();
 
 		List<ChatRoomListResponse> list = chatMemberRepository.findAllChatMemberWithChatRoom(sessionMember).stream()
 			.map(chatMember -> ChatRoomListResponse.fromEntity(chatMember.getChatRoom()))
 			.toList();
 
-		return Response.ok(list);
+		return Response.ok(new ChatRoomResponse(2L, list));
 	}
 
 	@Override
 	public Response<CreateChatRoomResponse> getChatRoom(Long postId) {
 
-		// Member sessionMember = securityUtils.getContextUserInfo().getMember();
-
-		Member sessionMember = memberRepository.findById(2L).stream()
-			.findAny()
-			.orElseThrow(() -> new BusinessException(ResponseCode.MEMBER_NOT_FOUND));
+		Member sessionMember = securityUtils.getContextUserInfo().getMember();
 
 		Post post = postRepository.findPostById(postId).stream()
 			.findAny()
