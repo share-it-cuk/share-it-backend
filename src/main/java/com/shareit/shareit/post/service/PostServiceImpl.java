@@ -45,11 +45,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public Response<Void> createPost(CreatePostRequest request) {
 
-		// securityUtils.getContextUserInfo()
-		Member contextUserInfo = memberRepository.findById(1L)
-			.stream()
-			.findAny()
-			.orElseThrow(() -> new BusinessException(ResponseCode.MEMBER_NOT_FOUND));
+		Member contextUserInfo = securityUtils.getContextUserInfo().getMember();
 
 		Post needPost = Post.builder()
 			.postType(request.getPostType())
@@ -115,11 +111,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public Response<PostInfoResponse> getPostDetail(Long postId) {
 
-		// ContextUserInfo contextUserInfo = securityUtils.getContextUserInfo();
-		Member contextUserInfo = memberRepository.findById(1L)
-			.stream()
-			.findAny()
-			.orElseThrow(() -> new BusinessException(ResponseCode.MEMBER_NOT_FOUND));
+		Member contextUserInfo = securityUtils.getContextUserInfo().getMember();
 
 		Member member = memberRepository.findById(contextUserInfo.getId())
 			.stream()
@@ -137,9 +129,8 @@ public class PostServiceImpl implements PostService {
 			postResponse.updateEditorCheck();
 		}
 
-		// TODO: member id change to context util
 		Optional<Likes> any = post.getLikes().stream()
-			.filter(like -> like.getMember().getId().equals(1L))
+			.filter(like -> like.getMember().equals(contextUserInfo))
 			.findAny();
 
 		if (any.isPresent()){
@@ -181,9 +172,9 @@ public class PostServiceImpl implements PostService {
 	}
 
 	private Post findPostWithAuthenticationCheck(Long postId) {
-		// Member member = securityUtils.getContextUserInfo().getMember();
+		Member member = securityUtils.getContextUserInfo().getMember();
 
-		Member findMember = memberRepository.findById(1L)
+		Member findMember = memberRepository.findById(member.getId())
 			.stream()
 			.findAny()
 			.orElseThrow(() -> new BusinessException(ResponseCode.MEMBER_NOT_FOUND));
