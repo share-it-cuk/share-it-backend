@@ -29,6 +29,8 @@ public class CustomPostRepositoryImpl implements CustomPostRepository {
 			.selectFrom(qPost)
 			.leftJoin(qPost.postImages)
 			.fetchJoin()
+			.leftJoin(qPost.likes)
+			.fetchJoin()
 			.where(
 				cursorInitial,
 				allOrKeyword,
