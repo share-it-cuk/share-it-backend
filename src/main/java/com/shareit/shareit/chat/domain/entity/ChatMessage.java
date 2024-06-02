@@ -22,9 +22,9 @@ import lombok.Setter;
 public class ChatMessage {
 
 	private Long roomId;
-	private String senderId;
+	private Long senderId;
 	private String message;
-	private LocalDateTime sendTime;
+	private LocalDateTime sendTime = LocalDateTime.now();
 	@Builder.Default
 	DiscriminateType discriminateType = DiscriminateType.MESSAGE;
 

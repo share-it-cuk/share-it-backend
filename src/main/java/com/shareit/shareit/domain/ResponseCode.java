@@ -14,7 +14,10 @@ public enum ResponseCode {
     // Post error : PST
     POST_NOT_FOUND(400, "PST-001", HttpStatus.BAD_REQUEST, "Post not found"),
     POST_UNAUTHORIZED(401, "PST-001", HttpStatus.UNAUTHORIZED, "cannot access to this post"),
-    POST_SAVE_ERROR(500, "PST-010", HttpStatus.INTERNAL_SERVER_ERROR, "post save error")
+    POST_SAVE_ERROR(500, "PST-010", HttpStatus.INTERNAL_SERVER_ERROR, "post save error"),
+
+    // Like error : LKE
+    LIKE_EXIST(400, "LKE-001", HttpStatus.BAD_REQUEST, "Like already exist")
     ;
 
     private final Integer status;

@@ -1,14 +1,12 @@
 package com.shareit.shareit.chat.controller;
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shareit.shareit.chat.domain.response.ChatRoomListResponse;
+import com.shareit.shareit.chat.domain.entity.ChatRoomResponse;
 import com.shareit.shareit.chat.domain.response.CreateChatRoomResponse;
 import com.shareit.shareit.chat.service.ChatRoomService;
 import com.shareit.shareit.domain.Response;
@@ -23,7 +21,7 @@ public class ChatRoomController {
 	private final ChatRoomService chatRoomService;
 
 	@GetMapping("/chatroom")
-	Response<List<ChatRoomListResponse>> getAllRooms() {
+	Response<ChatRoomResponse> getAllRooms() {
 		return chatRoomService.findAllChatRooms();
 	}
 

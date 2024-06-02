@@ -23,15 +23,15 @@ import lombok.Setter;
 public class PurchaseMessage {
 
 	private Long roomId;
-	private String senderId;
+	private Long senderId;
 	@Builder.Default
-	private final DiscriminateType discriminateType = DiscriminateType.PURCHASE;
+	private DiscriminateType discriminateType = DiscriminateType.PURCHASE;
 
 	private Long purchaseId;
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 
-	private LocalDateTime sendTime;
+	private LocalDateTime sendTime = LocalDateTime.now();
 
 	public PurchaseMessage fromEntity(Purchase purchase) {
 		return PurchaseMessage.builder()

@@ -20,7 +20,6 @@ public class ChatRoomListResponse {
 
 	private Long chatRoomId;
 	private String title;
-	private String lastChat;
 
 	public static ChatRoomListResponse fromEntity(ChatRoom chatRoom) {
 		ChatRoomListResponse response = new ChatRoomListResponse();
