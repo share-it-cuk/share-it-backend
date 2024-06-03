@@ -93,7 +93,9 @@ public class SecurityConfig {
 		//경로별 인가 작업
 		http
 			.authorizeHttpRequests((auth) -> auth
-				.requestMatchers("/participation/count").permitAll()
+				.requestMatchers("/sub/**").permitAll()
+				.requestMatchers("/pub/**").permitAll()
+				.requestMatchers("/ws/**").permitAll()
 				.requestMatchers("/auth/**").hasRole("SOCIAL")
 				.anyRequest().hasRole("USER"));
 
