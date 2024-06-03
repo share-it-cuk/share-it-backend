@@ -8,8 +8,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.shareit.shareit.domain.Repository.MemberRepository;
 import com.shareit.shareit.member.domain.entity.Member;
-import com.shareit.shareit.member.domain.repository.MemberRepository;
 import com.shareit.shareit.member.util.Role;
 import com.shareit.shareit.security.dto.CustomOAuth2User;
 import com.shareit.shareit.security.dto.KakaoResponse;
@@ -27,7 +27,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		OAuth2User oAuth2User = super.loadUser(userRequest);
-		System.out.println(oAuth2User.getName());
+		//System.out.println(oAuth2User.getName());
 
 		String registrationId = userRequest.getClientRegistration().getRegistrationId();
 		OAuth2Response oAuth2Response = null;
@@ -40,7 +40,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 		String username = oAuth2Response.getProvider() + "_" + oAuth2Response.getProviderId();
 
-		Member existData = memberRepository.findMemberBySocialId(username);
+		Member existData = memberRepository.findMemberByUuid(username);
 		UserDto userDto;
 		if (existData == null) {
 			String uuid = UUID.randomUUID().toString();

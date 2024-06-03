@@ -28,21 +28,21 @@ public class JwtFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 		FilterChain filterChain) throws ServletException, IOException {
 
-		System.out.println(request.getRequestURI());
-		if (request.getRequestURI().equals("/participation/count")) {
+		String requestURI = request.getRequestURI();
+		if (requestURI.matches("/sub/.*") ||
+			requestURI.matches("/pub/.*") ||
+			requestURI.matches("/ws/.*") ||
+			requestURI.matches("/api/message/.*")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
-		String authorization = null;
-
-		authorization = request.getHeader("Authorization");
-		System.out.println("[JwtFilter] - get token=" + authorization);
+		String authorization = request.getHeader("Authorization");
 
 		//Authorization 헤더 검증
 		if (authorization == null || authorization.isBlank() || authorization.isEmpty() || authorization.equals(
 			"undefined")) {
-			System.out.println("[JwtFilter] - token is blank");
+			//System.out.println("[JwtFilter] - token is blank");
 			throw new JwtException("INVALID");
 		}
 
@@ -52,7 +52,7 @@ public class JwtFilter extends OncePerRequestFilter {
 		String token = authorization;
 		//토큰 소멸 시간 검증
 		if (jwtUtil.isExpired(token)) {
-			System.out.println("token expired");
+			//System.out.println("token expired");
 			throw new JwtException("EXPIRE");
 		}
 
