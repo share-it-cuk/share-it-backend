@@ -10,5 +10,7 @@ import com.shareit.shareit.member.domain.entity.Member;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 	Optional<Member> findById(@Param("id") Long id);
 
+	Member findMemberBySocialId(@Param("socialId") String socialId);
+
 	Member findMemberByUuid(@Param("uuid") String uuid);
 }

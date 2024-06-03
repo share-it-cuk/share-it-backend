@@ -40,7 +40,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 		String username = oAuth2Response.getProvider() + "_" + oAuth2Response.getProviderId();
 
-		Member existData = memberRepository.findMemberByUuid(username);
+		Member existData = memberRepository.findMemberBySocialId(username);
 		UserDto userDto;
 		if (existData == null) {
 			String uuid = UUID.randomUUID().toString();
