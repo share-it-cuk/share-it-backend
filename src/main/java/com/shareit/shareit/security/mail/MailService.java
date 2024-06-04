@@ -53,6 +53,7 @@ public class MailService {
 		String email = req.getEmail();
 		String uuid = member.getUuid();
 		mailRequestHandler.addRequest(uuid, code);
+		member.updateEmail(email);
 
 		try {
 			MimeMessage message = createEmail(email, code);

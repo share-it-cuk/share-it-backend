@@ -23,6 +23,8 @@ public enum ResponseCode {
 	//Security error : SEC
 	TOKEN_EXPIRED(400, "SEC-001", HttpStatus.BAD_REQUEST, "token is expired or not available"),
 	TOKEN_NOT_AVAILABLE(400, "SEC-002", HttpStatus.BAD_REQUEST, "token is not available "),
+	USER_ID_NOT_AVAILABLE(401, "SEC-003", HttpStatus.UNAUTHORIZED, "user id is not available"),
+	USER_PASSWORD_NOT_AVAILABLE(401, "SEC-004", HttpStatus.UNAUTHORIZED, "user password is not available"),
 
 	// Mail Error : MIL
 	MAIL_NOT_AVAILABLE(401, "MIL-001", HttpStatus.UNAUTHORIZED, "mail code is not avalilable");
