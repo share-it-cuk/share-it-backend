@@ -32,6 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
 		if (requestURI.matches("/sub/.*") ||
 			requestURI.matches("/pub/.*") ||
 			requestURI.matches("/ws/.*") ||
+			requestURI.matches("/account/.*") ||
 			requestURI.matches("/api/message/.*")) {
 			filterChain.doFilter(request, response);
 			return;
