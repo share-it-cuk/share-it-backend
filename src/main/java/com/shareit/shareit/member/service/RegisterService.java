@@ -30,9 +30,10 @@ public class RegisterService {
 	public Response<RegisterRes> registerMember(RegisterReq req) {
 		Member member = securityUtil.getMember();
 		String uuid = member.getUuid();
-		member.updateRole(Role.ROLE_USER);
-	
 		String token = jwtUtil.createJwt(uuid, Role.ROLE_USER.getRole(), 60 * 600 * 600L);
+
+		member.updateRole(Role.ROLE_USER);
+		member.addNickname(req.getNickName());
 
 		return Response.ok(new RegisterRes(token));
 	}
