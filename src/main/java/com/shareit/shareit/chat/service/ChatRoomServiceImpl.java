@@ -38,7 +38,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 	@Override
 	public Response<ChatRoomResponse> findAllChatRooms() {
 
-		Member sessionMember = securityUtils.getContextUserInfo().getMember();
+		Member sessionMember = securityUtils.getMember();
 
 		List<ChatRoomListResponse> list = chatMemberRepository.findAllChatMemberWithChatRoom(sessionMember).stream()
 			.map(chatMember -> ChatRoomListResponse.fromEntity(chatMember.getChatRoom()))
@@ -50,7 +50,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 	@Override
 	public Response<CreateChatRoomResponse> getChatRoom(Long postId) {
 
-		Member sessionMember = securityUtils.getContextUserInfo().getMember();
+		Member sessionMember = securityUtils.getMember();
 
 		Post post = postRepository.findPostById(postId).stream()
 			.findAny()
@@ -65,7 +65,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 			)
 			.findAny();
 
-		if (existChatRoom.isEmpty()){
+		if (existChatRoom.isEmpty()) {
 			ChatRoom createdChatRoom = ChatRoom.builder()
 				.title(post.getTitle())
 				.post(post)

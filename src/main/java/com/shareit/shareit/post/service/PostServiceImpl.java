@@ -46,7 +46,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public Response<CreatePostResponse> createPost(CreatePostRequest request) {
 
-		Member contextUserInfo = securityUtils.getContextUserInfo().getMember();
+		Member contextUserInfo = securityUtils.getMember();
 
 		Post needPost = Post.builder()
 			.postType(request.getPostType())
@@ -79,7 +79,7 @@ public class PostServiceImpl implements PostService {
 
 		List<Post> findPosts = postRepository.findPostWithCursor(cursor, keyword, postType, size + 1);
 
-		if (findPosts.isEmpty()){
+		if (findPosts.isEmpty()) {
 			return Response.ok(
 				PostInfoWithPaging.builder()
 					.hasNext(false)
@@ -114,7 +114,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public Response<PostInfoResponse> getPostDetail(Long postId) {
 
-		Member contextUserInfo = securityUtils.getContextUserInfo().getMember();
+		Member contextUserInfo = securityUtils.getMember();
 
 		Member member = memberRepository.findById(contextUserInfo.getId())
 			.stream()
@@ -136,7 +136,7 @@ public class PostServiceImpl implements PostService {
 			.filter(like -> like.getMember().equals(contextUserInfo))
 			.findAny();
 
-		if (any.isPresent()){
+		if (any.isPresent()) {
 			postResponse.updateLikedCheck();
 		}
 
@@ -175,7 +175,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	private Post findPostWithAuthenticationCheck(Long postId) {
-		Member member = securityUtils.getContextUserInfo().getMember();
+		Member member = securityUtils.getMember();
 
 		Member findMember = memberRepository.findById(member.getId())
 			.stream()

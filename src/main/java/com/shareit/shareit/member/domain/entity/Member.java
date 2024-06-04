@@ -112,4 +112,12 @@ public class Member extends BaseEntity {
 		this.userRole = role;
 	}
 
+	public void addCampus(Campus campus) {
+		this.campus = campus;
+	}
+
+	public void addNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
 }
