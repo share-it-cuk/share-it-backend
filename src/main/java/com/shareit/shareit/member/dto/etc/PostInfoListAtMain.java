@@ -6,9 +6,11 @@ import com.shareit.shareit.post.domain.entity.Post;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class PostInfoListAtMain {
 
 	private Long id;
