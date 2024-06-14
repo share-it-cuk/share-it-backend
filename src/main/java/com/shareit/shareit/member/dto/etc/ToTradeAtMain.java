@@ -4,11 +4,20 @@ import java.time.LocalDateTime;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
+@NoArgsConstructor
 public class ToTradeAtMain {
-	LocalDateTime date;
-	String type;
-	String title;
+	private LocalDateTime date;
+	private String type;
+	private String title;
+
+	@Builder
+	ToTradeAtMain(LocalDateTime date, String type, String title) {
+		this.date = date;
+		this.type = type;
+		this.title = title;
+
+	}
 }

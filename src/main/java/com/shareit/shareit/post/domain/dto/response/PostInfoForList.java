@@ -3,6 +3,8 @@ package com.shareit.shareit.post.domain.dto.response;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.shareit.shareit.post.domain.entity.Post;
 import com.shareit.shareit.post.domain.entity.PostImage;
 
@@ -15,6 +17,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PostInfoForList {
 
 	private Long id;

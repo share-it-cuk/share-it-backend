@@ -67,13 +67,16 @@ public class Member extends BaseEntity {
 
 	private String uuid;
 
+	private String userId;
+
 	@ManyToOne
 	@JoinColumn(name = "campus_id")
 	private Campus campus;
 
 	@Builder
 	public Member(String email, String password, String nickname, String phoneNum, Role userRole, String address,
-		String profileImage, String socialId, String refreshToken, String profileKey, Campus campus, String uuid) {
+		String profileImage, String socialId, String refreshToken, String profileKey, Campus campus, String uuid,
+		String userId) {
 		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
@@ -86,6 +89,7 @@ public class Member extends BaseEntity {
 		this.profileKey = profileKey;
 		this.campus = campus;
 		this.uuid = uuid;
+		this.userId = userId;
 	}
 
 	public void updateUuid(String uuid) {
@@ -106,6 +110,14 @@ public class Member extends BaseEntity {
 
 	public void updateRole(Role role) {
 		this.userRole = role;
+	}
+
+	public void addCampus(Campus campus) {
+		this.campus = campus;
+	}
+
+	public void addNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 }

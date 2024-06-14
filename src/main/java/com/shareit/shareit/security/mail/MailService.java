@@ -8,9 +8,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.shareit.shareit.Exceptions.BusinessException;
+import com.shareit.shareit.domain.Repository.CampusRepository;
 import com.shareit.shareit.domain.Repository.MemberRepository;
 import com.shareit.shareit.domain.Response;
 import com.shareit.shareit.domain.ResponseCode;
+import com.shareit.shareit.domain.entity.Campus;
 import com.shareit.shareit.member.domain.entity.Member;
 import com.shareit.shareit.member.util.Role;
 import com.shareit.shareit.security.SecurityUtil;
@@ -29,6 +31,8 @@ public class MailService {
 	private final MemberRepository memberRepository;
 	private final MailRequestHandler mailRequestHandler;
 
+	private final CampusRepository campusRepository;
+
 	private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyz0123456789";
 	private static final int CODE_LENGTH = 6;
 
@@ -39,11 +43,12 @@ public class MailService {
 	private String seed;
 
 	MailService(JavaMailSender javaMailSender, SecurityUtil securityUtil, MemberRepository memberRepository,
-		MailRequestHandler mailRequestHandler) {
+		MailRequestHandler mailRequestHandler, CampusRepository campusRepository) {
 		this.javaMailSender = javaMailSender;
 		this.securityUtil = securityUtil;
 		this.memberRepository = memberRepository;
 		this.mailRequestHandler = mailRequestHandler;
+		this.campusRepository = campusRepository;
 	}
 
 	@Transactional
@@ -53,6 +58,7 @@ public class MailService {
 		String email = req.getEmail();
 		String uuid = member.getUuid();
 		mailRequestHandler.addRequest(uuid, code);
+		member.updateEmail(email);
 
 		try {
 			MimeMessage message = createEmail(email, code);
@@ -70,9 +76,11 @@ public class MailService {
 		Member member = securityUtil.getMember();
 		String uuid = member.getUuid();
 		Boolean isSuccess = mailRequestHandler.checkRequest(uuid, code);
+		Campus campus = campusRepository.findByCampusName("Catholic University of Korea");
 
 		if (isSuccess) {
 			member.updateRole(Role.ROLE_USER);
+			member.addCampus(campus);
 			mailRequestHandler.removeRequest(uuid);
 		} else {
 			throw new BusinessException(ResponseCode.MAIL_NOT_AVAILABLE);

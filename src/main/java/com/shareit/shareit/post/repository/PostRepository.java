@@ -15,5 +15,7 @@ public interface PostRepository extends JpaRepository<Post, Long>, CustomPostRep
 	Optional<Post> findPostById(Long id);
 
 	@Query("SELECT p FROM Post p ORDER BY p.updatedAt DESC")
-	List<Post> findRecentTop3Post();
+	Optional<List<Post>> findRecentTop3Post();
+
+	Optional<List<Post>> findPostsById(Long id);
 }

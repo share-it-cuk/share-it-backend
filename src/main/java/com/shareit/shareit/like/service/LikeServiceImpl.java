@@ -30,7 +30,7 @@ public class LikeServiceImpl implements LikeService {
 	@Override
 	public Response<Void> postLike(LikeRequest likeRequest) {
 
-		Member currentMember = securityUtils.getContextUserInfo().getMember();
+		Member currentMember = securityUtils.getMember();
 
 		Post currentPost = postRepository.findById(likeRequest.getPostId()).stream()
 			.findAny()
@@ -38,7 +38,7 @@ public class LikeServiceImpl implements LikeService {
 
 		Optional<Likes> findLike = likeRepository.findLikesWithMemberPost(currentMember, currentPost);
 
-		if (findLike.isPresent()){
+		if (findLike.isPresent()) {
 			likeRepository.delete(findLike.get());
 		} else {
 			Likes like = Likes.builder()

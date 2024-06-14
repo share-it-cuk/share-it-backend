@@ -96,6 +96,7 @@ public class SecurityConfig {
 				.requestMatchers("/sub/**").permitAll()
 				.requestMatchers("/pub/**").permitAll()
 				.requestMatchers("/ws/**").permitAll()
+				.requestMatchers("/account/**").permitAll()
 				.requestMatchers("/auth/**").hasRole("SOCIAL")
 				.anyRequest().hasRole("USER"));
 

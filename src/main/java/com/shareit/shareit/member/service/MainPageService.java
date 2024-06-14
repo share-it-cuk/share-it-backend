@@ -3,19 +3,21 @@ package com.shareit.shareit.member.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.shareit.shareit.domain.Repository.MemberRepository;
 import com.shareit.shareit.domain.Response;
 import com.shareit.shareit.member.domain.entity.Member;
 import com.shareit.shareit.member.dto.etc.PostInfoListAtMain;
 import com.shareit.shareit.member.dto.etc.ToTradeAtMain;
 import com.shareit.shareit.member.dto.etc.UserInfoDto;
 import com.shareit.shareit.member.dto.response.AuthMainPageRes;
+import com.shareit.shareit.member.dto.response.BasicMainPageRes;
 import com.shareit.shareit.post.domain.dto.response.PostInfoForList;
+import com.shareit.shareit.post.domain.entity.Post;
 import com.shareit.shareit.post.repository.PostRepository;
 import com.shareit.shareit.purchase.domain.entity.Purchase;
 import com.shareit.shareit.purchase.domain.repository.PurchaseRepository;
@@ -29,15 +31,26 @@ import lombok.RequiredArgsConstructor;
 public class MainPageService {
 
 	private final SecurityUtils securityUtils;
-	private final MemberRepository memberRepository;
 	private final PostRepository postRepository;
 	private final PurchaseRepository purchaseRepository;
 	private final ReviewRepository reviewRepository;
 
-	public Response<AuthMainPageRes> authMain() {
-		//Authentication Get UserInfo
+	public Response<BasicMainPageRes> getBasicMain() {
+		Optional<List<Post>> optionalPosts = postRepository.findRecentTop3Post();
 
-		Member currentUserInfo = memberRepository.findById(0L).orElseThrow();
+		List<PostInfoForList> recentPostInfoList = optionalPosts
+			.map(posts -> posts.stream()
+				.map(PostInfoForList::fromEntity)
+				.toList())
+			.orElse(Collections.emptyList());
+
+		BasicMainPageRes res = new BasicMainPageRes(recentPostInfoList);
+		return Response.ok(res);
+	}
+
+	public Response<AuthMainPageRes> getAuthMain() {
+		//Authentication Get UserInfo
+		Member currentUserInfo = securityUtils.getMember();
 
 		LocalDateTime now = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
 		Optional<List<Purchase>> myAppointments = purchaseRepository.getToTradeList(now);
@@ -65,6 +78,21 @@ public class MainPageService {
 				});
 		});
 
+		Optional<List<Post>> optionalPosts = postRepository.findRecentTop3Post();
+		Optional<List<Post>> optionalMyPostList = postRepository.findPostsById(currentUserInfo.getId());
+
+		List<PostInfoForList> recentPostInfoList = optionalPosts
+			.map(posts -> posts.stream()
+				.map(PostInfoForList::fromEntity)
+				.toList())
+			.orElse(Collections.emptyList());
+
+		List<PostInfoListAtMain> postInfoListAtMain = optionalMyPostList
+			.map(posts -> posts.stream()
+				.map(PostInfoListAtMain::fromEntity)
+				.toList())
+			.orElse(Collections.emptyList());
+
 		return Response.ok(
 			AuthMainPageRes.builder()
 				.userInfoDto(
@@ -77,16 +105,10 @@ public class MainPageService {
 						.build()
 				)
 				.toTradeList(toTradeAtMainList)
-				.recentPostInfoList(postRepository.findRecentTop3Post()
-					.stream()
-					.map(PostInfoForList::fromEntity)
-					.toList()
-				)
-				.myPostList(postRepository.findPostById(currentUserInfo.getId())
-					.stream()
-					.map(PostInfoListAtMain::fromEntity)
-					.toList())
+				.recentPostInfoList(recentPostInfoList)
+				.myPostList(postInfoListAtMain)
 				.build()
 		);
 	}
+
 }
